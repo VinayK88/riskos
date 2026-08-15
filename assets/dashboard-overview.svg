@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1020"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <rect width="1400" height="820" rx="28" fill="url(#bg)"/>
+  <rect x="28" y="28" width="1344" height="764" rx="22" fill="#0f172a" stroke="#25334a"/>
+
+  <text x="62" y="78" fill="#f8fafc" font-family="Inter,Segoe UI,Arial" font-size="28" font-weight="700">🛡 RiskOS — Trust &amp; Safety Decisioning</text>
+  <text x="62" y="108" fill="#94a3b8" font-family="Inter,Segoe UI,Arial" font-size="15">Marketplace risk, graph intelligence, operating economics, calibration, and drift</text>
+
+  <rect x="62" y="136" width="210" height="38" rx="10" fill="#172033"/><text x="86" y="161" fill="#e2e8f0" font-family="Inter,Segoe UI,Arial" font-size="14">Decision queue</text>
+  <rect x="282" y="136" width="210" height="38" rx="10" fill="#101827"/><text x="303" y="161" fill="#94a3b8" font-family="Inter,Segoe UI,Arial" font-size="14">Threshold economics</text>
+  <rect x="502" y="136" width="185" height="38" rx="10" fill="#101827"/><text x="525" y="161" fill="#94a3b8" font-family="Inter,Segoe UI,Arial" font-size="14">Entity graph</text>
+  <rect x="697" y="136" width="165" height="38" rx="10" fill="#101827"/><text x="720" y="161" fill="#94a3b8" font-family="Inter,Segoe UI,Arial" font-size="14">Model lab</text>
+  <rect x="872" y="136" width="170" height="38" rx="10" fill="#101827"/><text x="894" y="161" fill="#94a3b8" font-family="Inter,Segoe UI,Arial" font-size="14">Monitoring</text>
+  <rect x="62" y="175" width="210" height="3" rx="2" fill="url(#accent)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="62" y="205" width="292" height="112" rx="16" fill="#131e31" stroke="#26344a"/>
+    <rect x="374" y="205" width="292" height="112" rx="16" fill="#131e31" stroke="#26344a"/>
+    <rect x="686" y="205" width="292" height="112" rx="16" fill="#131e31" stroke="#26344a"/>
+    <rect x="998" y="205" width="312" height="112" rx="16" fill="#131e31" stroke="#26344a"/>
+  </g>
+  <text x="84" y="238" fill="#94a3b8" font-family="Inter,Segoe UI,Arial" font-size="14">Selected threshold</text>
+  <text x="84" y="284" fill="#f8fafc" font-family="Inter,Segoe UI,Arial" font-size="37" font-weight="700">0.40</text>
+  <text x="396" y="238" fill="#94a3b8" font-family="Inter,Segoe UI,Arial" font-size="14">Fraud recall</text>
+  <text x="396" y="284" fill="#f8fafc" font-family="Inter,Segoe UI,Arial" font-size="37" font-weight="700">74.7%</text>
+  <text x="708" y="238" fill="#94a3b8" font-family="Inter,Segoe UI,Arial" font-size="14">Precision</text>
+  <text x="708" y="284" fill="#f8fafc" font-family="Inter,Segoe UI,Arial" font-size="37" font-weight="700">94.9%</text>
+  <text x="1020" y="238" fill="#94a3b8" font-family="Inter,Segoe UI,Arial" font-size="14">Reviews</text>
+  <text x="1020" y="284" fill="#f8fafc" font-family="Inter,Segoe UI,Arial" font-size="37" font-weight="700">59 / 60</text>
+
+  <text x="62" y="360" fill="#f8fafc" font-family="Inter,Segoe UI,Arial" font-size="21" font-weight="700">Exposure-aware analyst queue</text>
+  <text x="62" y="386" fill="#94a3b8" font-family="Inter,Segoe UI,Arial" font-size="14">Ranked by expected loss, with model, graph, temporal and policy signals in one view.</text>
+
+  <rect x="62" y="410" width="1248" height="314" rx="16" fill="#111b2d" stroke="#26344a"/>
+  <rect x="62" y="410" width="1248" height="48" rx="16" fill="#18243a"/>
+  <text x="82" y="440" fill="#cbd5e1" font-family="Inter,Segoe UI,Arial" font-size="13" font-weight="700">ENTITY</text>
+  <text x="250" y="440" fill="#cbd5e1" font-family="Inter,Segoe UI,Arial" font-size="13" font-weight="700">RISK</text>
+  <text x="370" y="440" fill="#cbd5e1" font-family="Inter,Segoe UI,Arial" font-size="13" font-weight="700">CHALLENGER</text>
+  <text x="520" y="440" fill="#cbd5e1" font-family="Inter,Segoe UI,Arial" font-size="13" font-weight="700">GRAPH</text>
+  <text x="635" y="440" fill="#cbd5e1" font-family="Inter,Segoe UI,Arial" font-size="13" font-weight="700">TEMPORAL</text>
+  <text x="770" y="440" fill="#cbd5e1" font-family="Inter,Segoe UI,Arial" font-size="13" font-weight="700">ACTION</text>
+  <text x="900" y="440" fill="#cbd5e1" font-family="Inter,Segoe UI,Arial" font-size="13" font-weight="700">EXPOSURE</text>
+  <text x="1040" y="440" fill="#cbd5e1" font-family="Inter,Segoe UI,Arial" font-size="13" font-weight="700">EXPECTED LOSS</text>
+
+  <g font-family="Inter,Segoe UI,Arial" font-size="13">
+    <line x1="62" y1="507" x2="1310" y2="507" stroke="#243249"/>
+    <line x1="62" y1="556" x2="1310" y2="556" stroke="#243249"/>
+    <line x1="62" y1="605" x2="1310" y2="605" stroke="#243249"/>
+    <line x1="62" y1="654" x2="1310" y2="654" stroke="#243249"/>
+    <text x="82" y="490" fill="#e2e8f0">carrier_204</text><text x="250" y="490" fill="#fb7185">0.83</text><text x="390" y="490" fill="#fb7185">0.86</text><text x="520" y="490" fill="#f59e0b">0.79</text><text x="635" y="490" fill="#f59e0b">0.80</text><rect x="768" y="468" width="79" height="27" rx="8" fill="#4c1d2f"/><text x="784" y="487" fill="#fda4af" font-weight="700">REVIEW</text><text x="900" y="490" fill="#e2e8f0">$30,000</text><text x="1040" y="490" fill="#f8fafc" font-weight="700">$24,831</text>
+    <text x="82" y="539" fill="#e2e8f0">carrier_487</text><text x="250" y="539" fill="#f59e0b">0.72</text><text x="390" y="539" fill="#f59e0b">0.79</text><text x="520" y="539" fill="#f59e0b">0.82</text><text x="635" y="539" fill="#94a3b8">0.35</text><rect x="768" y="517" width="105" height="27" rx="8" fill="#3b2f12"/><text x="780" y="536" fill="#fde68a" font-weight="700">CHALLENGE</text><text x="900" y="539" fill="#e2e8f0">$61,500</text><text x="1040" y="539" fill="#f8fafc" font-weight="700">$44,280</text>
+    <text x="82" y="588" fill="#e2e8f0">carrier_319</text><text x="250" y="588" fill="#f59e0b">0.68</text><text x="390" y="588" fill="#f59e0b">0.75</text><text x="520" y="588" fill="#f59e0b">0.77</text><text x="635" y="588" fill="#94a3b8">0.20</text><rect x="768" y="566" width="105" height="27" rx="8" fill="#3b2f12"/><text x="780" y="585" fill="#fde68a" font-weight="700">CHALLENGE</text><text x="900" y="588" fill="#e2e8f0">$42,200</text><text x="1040" y="588" fill="#f8fafc" font-weight="700">$28,696</text>
+    <text x="82" y="637" fill="#e2e8f0">carrier_011</text><text x="250" y="637" fill="#34d399">0.05</text><text x="390" y="637" fill="#34d399">0.07</text><text x="520" y="637" fill="#34d399">0.10</text><text x="635" y="637" fill="#34d399">0.00</text><rect x="768" y="615" width="68" height="27" rx="8" fill="#12382e"/><text x="784" y="634" fill="#6ee7b7" font-weight="700">ALLOW</text><text x="900" y="637" fill="#e2e8f0">$1,200</text><text x="1040" y="637" fill="#f8fafc" font-weight="700">$59</text>
+    <text x="82" y="686" fill="#e2e8f0">carrier_522</text><text x="250" y="686" fill="#f59e0b">0.63</text><text x="390" y="686" fill="#f59e0b">0.71</text><text x="520" y="686" fill="#f59e0b">0.74</text><text x="635" y="686" fill="#94a3b8">0.30</text><rect x="768" y="664" width="105" height="27" rx="8" fill="#3b2f12"/><text x="780" y="683" fill="#fde68a" font-weight="700">CHALLENGE</text><text x="900" y="686" fill="#e2e8f0">$18,900</text><text x="1040" y="686" fill="#f8fafc" font-weight="700">$11,907</text>
+  </g>
+
+  <text x="62" y="760" fill="#64748b" font-family="Inter,Segoe UI,Arial" font-size="12">Representative static preview of the Streamlit analyst workbench. All entities and values are synthetic.</text>
+</svg>
