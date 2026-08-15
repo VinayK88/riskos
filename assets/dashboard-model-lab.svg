@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760">
+  <defs><linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1020"/><stop offset="1" stop-color="#111827"/></linearGradient></defs>
+  <rect width="1400" height="760" rx="28" fill="url(#bg2)"/>
+  <rect x="28" y="28" width="1344" height="704" rx="22" fill="#0f172a" stroke="#25334a"/>
+  <text x="62" y="80" fill="#f8fafc" font-family="Inter,Segoe UI,Arial" font-size="27" font-weight="700">RiskOS — Model Lab &amp; Calibration</text>
+  <text x="62" y="109" fill="#94a3b8" font-family="Inter,Segoe UI,Arial" font-size="14">Champion vs challenger quality, calibration, and reliability diagnostics</text>
+
+  <g font-family="Inter,Segoe UI,Arial">
+    <rect x="62" y="144" width="300" height="105" rx="16" fill="#131e31" stroke="#26344a"/><text x="84" y="178" fill="#94a3b8" font-size="14">Champion Brier</text><text x="84" y="222" fill="#f8fafc" font-size="34" font-weight="700">0.081</text>
+    <rect x="382" y="144" width="300" height="105" rx="16" fill="#131e31" stroke="#26344a"/><text x="404" y="178" fill="#94a3b8" font-size="14">Challenger Brier</text><text x="404" y="222" fill="#34d399" font-size="34" font-weight="700">0.067</text>
+    <rect x="702" y="144" width="300" height="105" rx="16" fill="#131e31" stroke="#26344a"/><text x="724" y="178" fill="#94a3b8" font-size="14">Champion ECE</text><text x="724" y="222" fill="#f8fafc" font-size="34" font-weight="700">0.094</text>
+    <rect x="1022" y="144" width="288" height="105" rx="16" fill="#131e31" stroke="#26344a"/><text x="1044" y="178" fill="#94a3b8" font-size="14">Challenger ECE</text><text x="1044" y="222" fill="#34d399" font-size="34" font-weight="700">0.071</text>
+
+    <text x="62" y="302" fill="#f8fafc" font-size="20" font-weight="700">Reliability diagram</text>
+    <rect x="62" y="325" width="600" height="325" rx="16" fill="#111b2d" stroke="#26344a"/>
+    <line x1="130" y1="590" x2="590" y2="590" stroke="#64748b"/><line x1="130" y1="590" x2="130" y2="380" stroke="#64748b"/>
+    <line x1="130" y1="590" x2="590" y2="380" stroke="#475569" stroke-dasharray="7 7"/>
+    <polyline points="130,586 220,558 310,515 400,465 490,415 590,390" fill="none" stroke="#22d3ee" stroke-width="4"/>
+    <polyline points="130,588 220,570 310,535 400,485 490,430 590,398" fill="none" stroke="#8b5cf6" stroke-width="4"/>
+    <circle cx="220" cy="558" r="5" fill="#22d3ee"/><circle cx="310" cy="515" r="5" fill="#22d3ee"/><circle cx="400" cy="465" r="5" fill="#22d3ee"/><circle cx="490" cy="415" r="5" fill="#22d3ee"/>
+    <circle cx="220" cy="570" r="5" fill="#8b5cf6"/><circle cx="310" cy="535" r="5" fill="#8b5cf6"/><circle cx="400" cy="485" r="5" fill="#8b5cf6"/><circle cx="490" cy="430" r="5" fill="#8b5cf6"/>
+    <text x="145" y="355" fill="#94a3b8" font-size="12">Observed fraud rate</text><text x="470" y="625" fill="#94a3b8" font-size="12">Mean predicted score</text>
+    <rect x="165" y="610" width="14" height="4" fill="#22d3ee"/><text x="186" y="616" fill="#cbd5e1" font-size="12">Champion</text><rect x="265" y="610" width="14" height="4" fill="#8b5cf6"/><text x="286" y="616" fill="#cbd5e1" font-size="12">Challenger</text>
+
+    <text x="710" y="302" fill="#f8fafc" font-size="20" font-weight="700">What the challenger adds</text>
+    <rect x="710" y="325" width="600" height="325" rx="16" fill="#111b2d" stroke="#26344a"/>
+    <rect x="750" y="374" width="160" height="70" rx="14" fill="#172554" stroke="#3b82f6"/><text x="786" y="403" fill="#bfdbfe" font-size="13">Champion</text><text x="781" y="426" fill="#f8fafc" font-size="18" font-weight="700">Behavior 62%</text>
+    <rect x="960" y="374" width="140" height="70" rx="14" fill="#2e1065" stroke="#8b5cf6"/><text x="985" y="403" fill="#ddd6fe" font-size="13">Graph</text><text x="984" y="426" fill="#f8fafc" font-size="18" font-weight="700">23%</text>
+    <rect x="1150" y="374" width="120" height="70" rx="14" fill="#3f1d14" stroke="#f59e0b"/><text x="1174" y="403" fill="#fde68a" font-size="13">Temporal</text><text x="1185" y="426" fill="#f8fafc" font-size="18" font-weight="700">15%</text>
+    <line x1="910" y1="410" x2="960" y2="410" stroke="#64748b" stroke-width="3"/><line x1="1100" y1="410" x2="1150" y2="410" stroke="#64748b" stroke-width="3"/>
+    <path d="M830 470 C830 515, 1010 515, 1010 555" fill="none" stroke="#475569" stroke-width="3"/><path d="M1030 470 C1030 515, 1010 515, 1010 555" fill="none" stroke="#475569" stroke-width="3"/><path d="M1210 470 C1210 515, 1010 515, 1010 555" fill="none" stroke="#475569" stroke-width="3"/>
+    <rect x="900" y="550" width="220" height="58" rx="14" fill="#12382e" stroke="#34d399"/><text x="937" y="576" fill="#a7f3d0" font-size="13">Challenger score</text><text x="970" y="598" fill="#f8fafc" font-size="17" font-weight="700">calibrated &amp; evaluated</text>
+  </g>
+  <text x="62" y="704" fill="#64748b" font-family="Inter,Segoe UI,Arial" font-size="12">Representative static preview of the Streamlit Model Lab. Values are illustrative and synthetic.</text>
+</svg>
