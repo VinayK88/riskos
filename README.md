@@ -23,6 +23,14 @@ RiskOS is a reproducible marketplace trust-and-safety decisioning platform built
 
 The repository demonstrates the full loop: synthetic marketplace generation, behavioral scoring, label-free entity-link graph analysis, temporal sequence detection, champion/challenger experimentation, calibration diagnostics, expected-loss prioritization, capacity-aware threshold optimization, versioned policy decisions, drift monitoring, an analyst dashboard, an API boundary, Docker packaging, tests, and CI.
 
+## Dashboard preview
+
+<p align="center">
+  <img src="assets/dashboard-overview.svg" alt="RiskOS analyst dashboard overview" width="100%" />
+</p>
+
+The Streamlit workbench gives an analyst one operational surface for **risk score, challenger score, graph risk, temporal risk, action, financial exposure, and expected loss**. The preview above is a representative static render of the live dashboard layout; all entities and values are synthetic.
+
 ## 60-second visual tour
 
 ```mermaid
@@ -122,8 +130,6 @@ flowchart TD
 
 ### Example 2 — normal marketplace entity
 
-Request:
-
 ```json
 {
   "entity_id": "carrier_011",
@@ -218,15 +224,7 @@ graph LR
     C3 -. "neighbor" .-> S1
 ```
 
-The model sees the **relationships**, not the hidden synthetic fraud label. `riskos/graph.py` calculates:
-
-- connected-component size;
-- peer count;
-- number of shared infrastructure resources;
-- bounded graph risk;
-- suspicious connected components.
-
-This lets an analyst answer a stronger question than “why is this account risky?”:
+The model sees the **relationships**, not the hidden synthetic fraud label. `riskos/graph.py` calculates connected-component size, peer count, shared infrastructure, bounded graph risk, and suspicious connected components.
 
 > **Which other identities are connected to the same risky infrastructure, and how large is the potential blast radius?**
 
@@ -296,21 +294,15 @@ The point is not to assume a more complex model is better. RiskOS checks whether
 
 A probability alone is not the decision.
 
-RiskOS prioritizes review using:
-
 ```text
 expected_loss = risk_score × financial_exposure
 ```
-
-For example:
 
 | Case | Risk | Exposure | Expected loss | Queue priority |
 | --- | ---: | ---: | ---: | --- |
 | A | 0.99 | $500 | $495 | lower |
 | B | 0.72 | $100,000 | $72,000 | **higher** |
 | C | 0.84 | $25,000 | $21,000 | medium |
-
-This is why the review queue is not simply sorted by probability.
 
 Threshold selection minimizes an illustrative operating objective:
 
@@ -327,17 +319,15 @@ flowchart LR
     T1["Low threshold"] --> R1["High recall"]
     T1 --> F1["More false positives"]
     T1 --> Q1["Queue overflow risk"]
-
     T2["Higher threshold"] --> P2["Higher precision"]
     T2 --> M2["More missed fraud"]
-
     R1 & F1 & Q1 & P2 & M2 --> COST["Expected operating cost"]
     COST --> BEST["Lowest-cost threshold\nthat fits analyst capacity"]
 ```
 
 ### Checked-in deterministic baseline
 
-The committed fixture contains 600 synthetic entities using seed `17`. Under the illustrative operating assumptions in [`reports/baseline-evaluation.json`](reports/baseline-evaluation.json):
+The committed fixture contains 600 synthetic entities using seed `17`.
 
 | Metric | Result |
 | --- | ---: |
@@ -356,8 +346,6 @@ These values validate deterministic code paths and operating tradeoffs. They are
 
 ## Versioned policy and audit trail
 
-`riskos/policy.py` separates model scoring from operational policy.
-
 ```mermaid
 flowchart TD
     S["Risk score"] --> P{"Policy v2026.08"}
@@ -369,23 +357,11 @@ flowchart TD
     B & R & C & A --> AUDIT["Audit record\nscore · reasons · version · timestamp"]
 ```
 
-Every policy decision records:
-
-```text
-entity_id
-risk score
-exposure
-ALLOW / CHALLENGE / REVIEW / BLOCK
-policy version
-reason codes
-UTC decision timestamp
-```
-
-That separation makes it possible to change thresholds, test policies, roll back decisions, and preserve an auditable record without retraining the model.
+Every decision records the entity, risk score, exposure, action, policy version, reason codes, and UTC decision timestamp. Separating scoring from policy makes threshold changes and rollback possible without retraining the model.
 
 ## Drift monitoring
 
-`riskos/monitoring.py` implements a lightweight Population Stability Index (PSI) monitor over prediction scores.
+`riskos/monitoring.py` implements Population Stability Index (PSI) monitoring over prediction scores.
 
 ```text
 PSI < 0.10        stable
@@ -404,9 +380,13 @@ stateDiagram-v2
     Recalibrate --> Stable: validated release
 ```
 
-A production implementation would extend this to feature drift, calibration, label delay, analyst-overturn rate, subgroup performance, and data-quality checks.
-
 ## Analyst workbench
+
+<p align="center">
+  <img src="assets/dashboard-model-lab.svg" alt="RiskOS champion challenger model lab" width="100%" />
+</p>
+
+Run it locally:
 
 ```bash
 python -m pip install -r requirements-dashboard.txt
@@ -422,8 +402,6 @@ The dashboard has five operational views:
 5. **Monitoring** — reference-vs-shifted score distributions and PSI state.
 
 ## Scoring API
-
-Install the API dependencies:
 
 ```bash
 python -m pip install -r requirements-api.txt
@@ -464,8 +442,6 @@ docker run --rm -p 8000:8000 riskos
 
 ## Dependency-free research path
 
-The core analytics require only the Python standard library:
-
 ```bash
 python -m riskos.demo
 python -m riskos.evaluation
@@ -483,16 +459,15 @@ riskos/
 ├── pyproject.toml
 ├── requirements-api.txt
 ├── requirements-dashboard.txt
-│
+├── assets/
+│   ├── dashboard-overview.svg
+│   └── dashboard-model-lab.svg
 ├── api/
 │   └── app.py
-│
 ├── dashboard/
 │   └── app.py
-│
 ├── reports/
 │   └── baseline-evaluation.json
-│
 ├── riskos/
 │   ├── core.py
 │   ├── simulator.py
@@ -504,29 +479,16 @@ riskos/
 │   ├── evaluation.py
 │   ├── monitoring.py
 │   └── demo.py
-│
 ├── tests/
 │   ├── test_core.py
 │   ├── test_science.py
 │   └── test_advanced.py
-│
 └── .github/workflows/ci.yml
 ```
 
 ## Production evolution
 
-A production implementation would replace synthetic fixtures with privacy-reviewed event streams and add:
-
-- online/offline feature consistency and event-time windows;
-- a scalable entity graph store and incremental graph features;
-- calibrated supervised + anomaly models;
-- champion/challenger shadow deployment;
-- delayed-label handling and analyst-feedback learning;
-- policy versioning backed by durable audit storage;
-- subgroup / fairness guardrails and customer-impact reviews;
-- feature/data quality contracts;
-- rollback and threshold kill switches;
-- service-level latency, throughput, and availability monitoring.
+A production implementation would replace synthetic fixtures with privacy-reviewed event streams and add online/offline feature consistency, event-time windows, a scalable graph store, calibrated supervised and anomaly models, champion/challenger shadow deployment, delayed-label handling, analyst-feedback learning, durable audit storage, subgroup guardrails, data-quality contracts, rollback controls, and service-level monitoring.
 
 ## Safety and scope
 
