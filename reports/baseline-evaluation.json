@@ -1,0 +1,32 @@
+{
+  "dataset": {
+    "synthetic_entities": 600,
+    "synthetic_fraud_cases": 75,
+    "synthetic_ring_members": 45,
+    "seed": 17,
+    "fraud_rate_parameter": 0.125
+  },
+  "operating_assumptions": {
+    "review_capacity": 60,
+    "loss_given_fraud": 0.25,
+    "false_positive_unit_cost": 400.0,
+    "analyst_review_unit_cost": 15.0,
+    "overflow_unit_cost": 250.0
+  },
+  "selected_threshold": {
+    "threshold": 0.40,
+    "precision": 0.9491525424,
+    "recall": 0.7466666667,
+    "f1": 0.8358208955,
+    "reviews": 59,
+    "true_positives": 56,
+    "false_positives": 3,
+    "false_negatives": 19,
+    "missed_fraud_loss": 179896.045,
+    "false_positive_cost": 1200.0,
+    "review_cost": 885.0,
+    "capacity_penalty": 0.0,
+    "total_expected_operating_cost": 181981.045
+  },
+  "disclaimer": "All data, labels, relationships, exposures, and cost assumptions are synthetic and exist only to demonstrate reproducible trust-and-safety decision science."
+}
