@@ -29,5 +29,8 @@ jobs:
       - name: Run threshold optimization
         run: python -m riskos.evaluation
 
-      - name: Compile dashboard
-        run: python -m py_compile dashboard/app.py
+      - name: Run champion challenger diagnostics
+        run: python -m riskos.challenger
+
+      - name: Compile application modules
+        run: python -m py_compile dashboard/app.py riskos/*.py
