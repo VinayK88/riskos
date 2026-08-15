@@ -33,4 +33,4 @@ jobs:
         run: python -m riskos.challenger
 
       - name: Compile application modules
-        run: python -m py_compile dashboard/app.py riskos/*.py
+        run: python -m py_compile dashboard/app.py api/app.py riskos/*.py
