@@ -7,15 +7,18 @@ Run from the repository root:
 import pandas as pd
 import streamlit as st
 
+from riskos.challenger import challenger_scores, compare_models
 from riskos.core import decision, expected_loss, reasons, risk_score
 from riskos.evaluation import best_threshold, threshold_sweep
+from riskos.graph import graph_signals, suspicious_components
 from riskos.monitoring import drift_summary
 from riskos.simulator import generate_cases
+from riskos.temporal import temporal_risk
 
 
 st.set_page_config(page_title="RiskOS", page_icon="🛡️", layout="wide")
 st.title("RiskOS — Trust & Safety Decisioning")
-st.caption("Synthetic marketplace risk, review-capacity optimization, and drift monitoring")
+st.caption("Marketplace risk, graph intelligence, operating economics, calibration, and drift")
 
 sample_size = st.sidebar.slider("Synthetic entities", 200, 1500, 600, step=100)
 fraud_rate = st.sidebar.slider("Fraud prevalence", 0.05, 0.30, 0.125, step=0.005)
@@ -24,16 +27,24 @@ review_capacity = st.sidebar.slider("Analyst review capacity", 20, 250, 60, step
 cases = generate_cases(n=sample_size, fraud_rate=fraud_rate, seed=17)
 rows = threshold_sweep(cases, review_capacity=review_capacity)
 best = best_threshold(cases, review_capacity=review_capacity)
+graph = graph_signals(cases)
+challenger = challenger_scores(cases)
 
 scored = []
-for case in cases:
+for case, challenger_score in zip(cases, challenger):
     score = risk_score(case.features)
+    g = graph[case.features.entity_id]
     scored.append(
         {
             "entity": case.features.entity_id,
             "label": "fraud" if case.is_fraud else "legitimate",
-            "ring": case.ring_id or "—",
+            "ring_truth": case.ring_id or "—",
             "risk": score,
+            "challenger_risk": challenger_score,
+            "graph_risk": g.graph_score,
+            "temporal_risk": temporal_risk(case),
+            "component_size": g.component_size,
+            "shared_resources": g.shared_resource_count,
             "action": decision(score, case.features.exposure_usd),
             "exposure_usd": case.features.exposure_usd,
             "expected_loss": expected_loss(score, case.features.exposure_usd),
@@ -49,7 +60,9 @@ m2.metric("Fraud recall", f"{best.recall:.1%}")
 m3.metric("Precision", f"{best.precision:.1%}")
 m4.metric("Reviews", f"{best.review_count} / {review_capacity}")
 
-tab1, tab2, tab3 = st.tabs(["Decision queue", "Threshold economics", "Model monitoring"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(
+    ["Decision queue", "Threshold economics", "Entity graph", "Model lab", "Monitoring"]
+)
 
 with tab1:
     st.subheader("Exposure-aware analyst queue")
@@ -62,8 +75,15 @@ with tab1:
         use_container_width=True,
         hide_index=True,
         column_config={
-            "risk": st.column_config.ProgressColumn(
-                "risk", min_value=0.0, max_value=1.0, format="%.2f"
+            "risk": st.column_config.ProgressColumn("risk", min_value=0.0, max_value=1.0, format="%.2f"),
+            "challenger_risk": st.column_config.ProgressColumn(
+                "challenger_risk", min_value=0.0, max_value=1.0, format="%.2f"
+            ),
+            "graph_risk": st.column_config.ProgressColumn(
+                "graph_risk", min_value=0.0, max_value=1.0, format="%.2f"
+            ),
+            "temporal_risk": st.column_config.ProgressColumn(
+                "temporal_risk", min_value=0.0, max_value=1.0, format="%.2f"
             ),
             "exposure_usd": st.column_config.NumberColumn("exposure_usd", format="$%.0f"),
             "expected_loss": st.column_config.NumberColumn("expected_loss", format="$%.0f"),
@@ -95,13 +115,67 @@ with tab2:
     )
 
 with tab3:
+    st.subheader("Entity-link graph intelligence")
+    components = suspicious_components(cases, min_size=3)
+    graph_rows = sorted(
+        [
+            {
+                "entity": entity_id,
+                "component_size": signal.component_size,
+                "peer_count": signal.peer_count,
+                "shared_resource_count": signal.shared_resource_count,
+                "graph_score": signal.graph_score,
+            }
+            for entity_id, signal in graph.items()
+        ],
+        key=lambda row: (row["graph_score"], row["component_size"]),
+        reverse=True,
+    )
+    g1, g2, g3 = st.columns(3)
+    g1.metric("Connected clusters ≥3", len(components))
+    g2.metric("Largest component", max((len(component) for component in components), default=1))
+    g3.metric("Entities with shared resources", sum(row["shared_resource_count"] > 0 for row in graph_rows))
+    st.write(
+        "The graph model sees only shared device, bank, and IP identifiers. It does not read the "
+        "synthetic fraud label or ring identifier when calculating graph risk."
+    )
+    st.dataframe(pd.DataFrame(graph_rows).head(50), use_container_width=True, hide_index=True)
+    if components:
+        st.code("\n".join(f"cluster_{idx + 1}: {', '.join(component[:12])}" for idx, component in enumerate(components[:8])))
+
+with tab4:
+    st.subheader("Champion / challenger and calibration")
+    comparison, champion_cal, challenger_cal = compare_models(cases)
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Champion Brier", f"{comparison.champion_brier:.3f}")
+    c2.metric("Challenger Brier", f"{comparison.challenger_brier:.3f}")
+    c3.metric("Champion ECE", f"{comparison.champion_ece:.3f}")
+    c4.metric("Challenger ECE", f"{comparison.challenger_ece:.3f}")
+    st.write(
+        "The challenger combines the baseline behavioral score with label-free entity-graph "
+        "signals and ordered temporal behavior. Calibration diagnostics prevent a better ranking "
+        "from being mistaken for a trustworthy probability estimate."
+    )
+    calibration_df = pd.DataFrame(
+        [
+            {
+                "score_bin": f"{b.lower:.1f}–{b.upper:.1f}",
+                "champion_count": b.count,
+                "champion_mean_score": b.mean_score,
+                "champion_fraud_rate": b.fraud_rate,
+                "challenger_count": cb.count,
+                "challenger_mean_score": cb.mean_score,
+                "challenger_fraud_rate": cb.fraud_rate,
+            }
+            for b, cb in zip(champion_cal.bins, challenger_cal.bins)
+        ]
+    )
+    st.dataframe(calibration_df, use_container_width=True, hide_index=True)
+
+with tab5:
     st.subheader("Prediction-distribution drift")
     reference_cases = generate_cases(n=sample_size, fraud_rate=0.125, seed=17)
-    shifted_cases = generate_cases(
-        n=sample_size,
-        fraud_rate=min(0.35, fraud_rate + 0.08),
-        seed=91,
-    )
+    shifted_cases = generate_cases(n=sample_size, fraud_rate=min(0.35, fraud_rate + 0.08), seed=91)
     reference_scores = [risk_score(case.features) for case in reference_cases]
     shifted_scores = [risk_score(case.features) for case in shifted_cases]
     summary = drift_summary(reference_scores, shifted_scores)
