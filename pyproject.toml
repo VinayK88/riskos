@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "riskos"
+version = "0.1.0"
+description = "Synthetic real-time Trust & Safety decisioning lab"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{name = "VinayK88"}]
+license = {text = "MIT"}
+
+[tool.setuptools.packages.find]
+include = ["riskos*"]
