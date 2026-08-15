@@ -124,13 +124,13 @@ The committed fixture contains 600 synthetic entities using seed `17`. Under the
 | --- | ---: |
 | Synthetic entities | 600 |
 | Synthetic fraud cases | 75 |
-| Synthetic fraud-ring members | 47 |
+| Synthetic fraud-ring members | 45 |
 | Analyst review capacity | 60 |
-| Recommended threshold | **0.35** |
-| Precision | **94.5%** |
-| Recall | **69.3%** |
-| F1 | **80.0%** |
-| Review volume | **55 / 60** |
+| Recommended threshold | **0.40** |
+| Precision | **94.9%** |
+| Recall | **74.7%** |
+| F1 | **83.6%** |
+| Review volume | **59 / 60** |
 | False positives | **3** |
 
 These numbers validate reproducibility and the evaluation path. They do **not** estimate real marketplace fraud performance.
