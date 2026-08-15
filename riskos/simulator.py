@@ -28,12 +28,11 @@ def _shared_resource(prefix: str, ring_id: str | None, idx: int) -> str:
 def generate_cases(n: int = 600, fraud_rate: float = 0.125, seed: int = 17) -> list[SyntheticCase]:
     """Generate overlapping benign and fraud populations.
 
-    The simulator creates a fixed fraud prevalence, a mix of obvious and stealthy
-    fraud, shared infrastructure for synthetic fraud rings, and an operationally
-    unusual legitimate segment. The objective is to exercise realistic decision
-    tradeoffs, not to estimate production fraud.
+    The feature stream and relationship-graph stream use independent RNGs so
+    graph-topology changes do not silently alter the benchmark feature fixture.
     """
     rng = Random(seed)
+    link_rng = Random(seed + 100_003)
     fraud_count = round(n * fraud_rate)
     fraud_indices = set(rng.sample(range(n), fraud_count))
     cases: list[SyntheticCase] = []
@@ -77,14 +76,22 @@ def generate_cases(n: int = 600, fraud_rate: float = 0.125, seed: int = 17) -> l
         )
 
         device_id = _shared_resource("dev", ring_id, idx)
-        bank_id = _shared_resource("bank", ring_id if ring_id and rng.random() < 0.72 else None, idx)
-        ip_id = _shared_resource("ip", ring_id if ring_id and rng.random() < 0.82 else None, idx)
+        bank_id = _shared_resource(
+            "bank",
+            ring_id if ring_id and link_rng.random() < 0.72 else None,
+            idx,
+        )
+        ip_id = _shared_resource(
+            "ip",
+            ring_id if ring_id and link_rng.random() < 0.82 else None,
+            idx,
+        )
 
         # A small amount of benign shared infrastructure creates realistic graph noise.
-        if not fraud and rng.random() < 0.04:
-            device_id = f"dev_benign_shared_{rng.randint(1, 6):02d}"
-        if not fraud and rng.random() < 0.02:
-            ip_id = f"ip_benign_shared_{rng.randint(1, 4):02d}"
+        if not fraud and link_rng.random() < 0.04:
+            device_id = f"dev_benign_shared_{link_rng.randint(1, 6):02d}"
+        if not fraud and link_rng.random() < 0.02:
+            ip_id = f"ip_benign_shared_{link_rng.randint(1, 4):02d}"
 
         cases.append(
             SyntheticCase(
