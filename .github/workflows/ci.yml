@@ -1,0 +1,33 @@
+name: RiskOS CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Run synthetic decision demo
+        run: python -m riskos.demo
+
+      - name: Run threshold optimization
+        run: python -m riskos.evaluation
+
+      - name: Compile dashboard
+        run: python -m py_compile dashboard/app.py
